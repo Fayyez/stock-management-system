@@ -1,0 +1,103 @@
+erDiagram
+
+    CATEGORY {
+        bigint  id          PK
+        varchar group       "max_length=50, nullable"
+    }
+
+    STOCK {
+        bigint   id               PK
+        bigint   category_id      FK
+        varchar  item_name        "max_length=50, nullable"
+        int      quantity         "default=0"
+        int      receive_quantity "default=0"
+        varchar  received_by      "max_length=50, nullable"
+        int      issue_quantity   "default=0"
+        varchar  issued_by        "max_length=50, nullable"
+        varchar  issued_to        "max_length=50, nullable"
+        varchar  phone_number     "max_length=50, nullable"
+        varchar  created_by       "max_length=50, nullable"
+        int      re_order         "default=0"
+        datetime last_updated     "auto_now=True"
+        datetime timestamp        "auto_now_add=True"
+        datetime date
+        boolean  export_to_csv    "default=False"
+        varchar  image            "ImageField, nullable"
+    }
+
+    STOCKHISTORY {
+        bigint   id               PK
+        bigint   category_id      FK "nullable"
+        varchar  item_name        "max_length=50, nullable"
+        int      quantity         "default=0"
+        int      receive_quantity "default=0"
+        varchar  received_by      "max_length=50, nullable"
+        int      issue_quantity   "default=0"
+        varchar  issued_by        "max_length=50, nullable"
+        varchar  issued_to        "max_length=50, nullable"
+        varchar  phone_number     "max_length=50, nullable"
+        varchar  created_by       "max_length=50, nullable"
+        int      re_order         "default=0"
+        datetime last_updated     "nullable"
+        datetime timestamp        "nullable"
+    }
+
+    USER {
+        bigint id   PK
+        text   user "default=None"
+    }
+
+    COUNTRY {
+        bigint  id   PK
+        varchar name "max_length=50"
+    }
+
+    STATE {
+        bigint  id         PK
+        bigint  country_id FK
+        varchar name       "max_length=50"
+    }
+
+    CITY {
+        bigint  id       PK
+        bigint  state_id FK
+        varchar name     "max_length=50"
+    }
+
+    PERSON {
+        bigint  id         PK
+        varchar name       "max_length=150"
+        bigint  country_id FK "nullable, SET_NULL"
+        bigint  state_id   FK "nullable, SET_NULL"
+        bigint  city_id    FK "nullable, SET_NULL"
+    }
+
+    SCRUMS {
+        bigint   id               PK
+        varchar  task             "max_length=100, nullable"
+        varchar  task_description "max_length=100, nullable"
+        datetime task_date        "nullable"
+    }
+
+    SCRUMTITLES {
+        bigint  id    PK
+        varchar lists "max_length=150, nullable"
+    }
+
+    CONTACTS {
+        bigint  id         PK
+        varchar name       "max_length=100, nullable"
+        varchar email      "EmailField, nullable"
+        varchar occupation "max_length=100, nullable"
+        varchar phone      "max_length=100, nullable"
+        varchar location   "max_length=100, nullable"
+        varchar image      "ImageField, nullable"
+    }
+
+    CATEGORY    ||--o{ STOCK        : "category (CASCADE)"
+    CATEGORY    ||--o{ STOCKHISTORY : "category (CASCADE)"
+    COUNTRY     ||--o{ STATE        : "country (CASCADE)"
+    STATE       ||--o{ CITY         : "state (CASCADE)"
+    COUNTRY     |o--o{ PERSON       : "country (SET_NULL)"
+    STATE       |o--o{ PERSON       : "state (SET_NULL)"
+    CITY        |o--o{ PERSON       : "city (SET_NULL)"
