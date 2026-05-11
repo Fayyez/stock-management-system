@@ -1,0 +1,59 @@
+graph TB
+    subgraph "Presentation Layer"
+        direction TB
+        Views["Views<br/>(HTTP Handlers)"]
+        Templates["Django Templates<br/>(HTML/CSS)"]
+        Static["Static Assets<br/>- CSS<br/>- JavaScript<br/>- Images"]
+    end
+    
+    subgraph "Request Processing"
+        direction TB
+        URLs["URL Routing<br/>(urls.py)"]
+        Forms["Forms<br/>- StockCreateForm<br/>- StockSearchForm<br/>- StockHistorySearchForm<br/>- StockUpdateForm"]
+    end
+    
+    subgraph "Business Logic"
+        direction TB
+        Exporters["Exporter Strategies<br/>- CSV Export<br/>- Data Serialization"]
+    end
+    
+    subgraph "Data Access Layer"
+        direction TB
+        Models["Django Models<br/>- Stock<br/>- StockHistory<br/>- Category<br/>- Person<br/>- Country<br/>- State<br/>- City"]
+    end
+    
+    subgraph "Infrastructure"
+        direction TB
+        Auth["Django Auth<br/>- User Authentication"]
+        Middleware["Middleware<br/>- StockExceptionMiddleware<br/>- Security"]
+        Logging["Logging Config<br/>- Error Tracking"]
+    end
+    
+    subgraph "Persistence"
+        direction TB
+        SQLite["SQLite Database"]
+    end
+    
+    Views --> Forms
+    Views --> Templates
+    Views --> Static
+    Views --> Exporters
+    Forms --> Models
+    URLs --> Views
+    Exporters --> Models
+    Models --> SQLite
+    Auth -.-> Views
+    Middleware -.-> Views
+    Logging -.-> Views
+    
+    style Views fill:#e1f5ff
+    style Templates fill:#e1f5ff
+    style Static fill:#e1f5ff
+    style URLs fill:#f3e5f5
+    style Forms fill:#f3e5f5
+    style Exporters fill:#ffe0b2
+    style Models fill:#ffccbc
+    style SQLite fill:#f8bbd0
+    style Auth fill:#d1c4e9
+    style Middleware fill:#d1c4e9
+    style Logging fill:#d1c4e9
